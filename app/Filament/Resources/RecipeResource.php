@@ -10,8 +10,6 @@ use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
 
 class RecipeResource extends Resource
 {
@@ -26,9 +24,11 @@ class RecipeResource extends Resource
                 Forms\Components\Select::make('user_id')
                     ->relationship('user', 'name'),
                 Forms\Components\TextInput::make('title')
+                    ->label(__('recipe-resource.field.title'))
                     ->required()
                     ->maxLength(255),
                 Forms\Components\TextInput::make('description')
+                    ->label(__('recipe-resource.field.description'))
                     ->required()
                     ->maxLength(255),
                 Forms\Components\FileUpload::make('image')
@@ -109,4 +109,21 @@ class RecipeResource extends Resource
             'edit' => Pages\EditRecipe::route('/{record}/edit'),
         ];
     }
+
+//    public static function getNavigationLabel(): string
+//    {
+//        return __('event-resource.nav.role.label');
+//    }
+//
+//    public static function getNavigationIcon(): string
+//    {
+//        return __('event-resource.nav.role.icon');
+//    }
+//
+//
+//    public static function getModelLabel(): string
+//    {
+//        return __('event-resource.resource.label.user');
+//    }
+
 }
