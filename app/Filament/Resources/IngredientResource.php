@@ -10,8 +10,6 @@ use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
 
 class IngredientResource extends Resource
 {
@@ -27,12 +25,15 @@ class IngredientResource extends Resource
                     ->relationship('recipe', 'title')
                     ->required(),
                 Forms\Components\TextInput::make('title')
+                    ->label(__('ingredient-resource.field.title'))
                     ->required()
                     ->maxLength(255),
                 Forms\Components\TextInput::make('quantity')
+                    ->label(__('ingredient-resource.field.quantity'))
                     ->required()
                     ->numeric(),
                 Forms\Components\FileUpload::make('image')
+                    ->label(__('ingredient-resource.field.image'))
                     ->image()
                     ->required(),
             ]);
@@ -46,11 +47,14 @@ class IngredientResource extends Resource
                     ->numeric()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('title')
+                    ->label(__('ingredient-resource.column.title'))
                     ->searchable(),
                 Tables\Columns\TextColumn::make('quantity')
+                    ->label(__('ingredient-resource.column.quantity'))
                     ->numeric()
                     ->sortable(),
-                Tables\Columns\ImageColumn::make('image'),
+                Tables\Columns\ImageColumn::make('image')
+                    ->label(__('ingredient-resource.column.image')),
                 Tables\Columns\TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable()
@@ -87,5 +91,21 @@ class IngredientResource extends Resource
             'create' => Pages\CreateIngredient::route('/create'),
             'edit' => Pages\EditIngredient::route('/{record}/edit'),
         ];
+    }
+
+    public static function getNavigationLabel(): string
+    {
+        return __('ingredient-resource.nav.role.label');
+    }
+
+    public static function getNavigationIcon(): string
+    {
+        return __('ingredient-resource.nav.role.icon');
+    }
+
+
+    public static function getModelLabel(): string
+    {
+        return __('ingredient-resource.resource.label.user');
     }
 }

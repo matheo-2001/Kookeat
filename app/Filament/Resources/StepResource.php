@@ -10,8 +10,6 @@ use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
 
 class StepResource extends Resource
 {
@@ -25,8 +23,10 @@ class StepResource extends Resource
             ->schema([
                 Forms\Components\Select::make('recipe_id')
                     ->relationship('recipe', 'title')
+                    ->label(__('step-resource.field.title'))
                     ->required(),
                 Forms\Components\TextInput::make('description')
+                    ->label(__('step-resource.field.description'))
                     ->required()
                     ->maxLength(255),
             ]);
@@ -37,9 +37,11 @@ class StepResource extends Resource
         return $table
             ->columns([
                 Tables\Columns\TextColumn::make('recipe.title')
+                    ->label(__('step-resource.column.title'))
                     ->numeric()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('description')
+                    ->label(__('step-resource.column.description'))
                     ->searchable(),
                 Tables\Columns\TextColumn::make('created_at')
                     ->dateTime()
@@ -77,5 +79,21 @@ class StepResource extends Resource
             'create' => Pages\CreateStep::route('/create'),
             'edit' => Pages\EditStep::route('/{record}/edit'),
         ];
+    }
+
+    public static function getNavigationLabel(): string
+    {
+        return __('step-resource.nav.role.label');
+    }
+
+    public static function getNavigationIcon(): string
+    {
+        return __('step-resource.nav.role.icon');
+    }
+
+
+    public static function getModelLabel(): string
+    {
+        return __('step-resource.resource.label.user');
     }
 }
