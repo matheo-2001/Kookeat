@@ -21,40 +21,56 @@ class RecipeResource extends Resource
     {
         return $form
             ->schema([
-                Forms\Components\Select::make('user_id')
-                    ->relationship('user', 'name'),
-                Forms\Components\TextInput::make('title')
-                    ->label(__('recipe-resource.field.title'))
-                    ->required()
-                    ->maxLength(255),
-                Forms\Components\TextInput::make('description')
-                    ->label(__('recipe-resource.field.description'))
-                    ->required()
-                    ->maxLength(255),
-                Forms\Components\FileUpload::make('image')
-                    ->label(__('recipe-resource.field.image'))
-                    ->image()
-                    ->required(),
-                Forms\Components\TextInput::make('serving')
-                    ->label(__('recipe-resource.field.serving'))
-                    ->required()
-                    ->numeric(),
-                Forms\Components\Toggle::make('vegan')
-                    ->label(__('recipe-resource.field.vegan'))
-                    ->required(),
-                Forms\Components\Toggle::make('vegeterian')
-                    ->label(__('recipe-resource.field.vegeterian'))
-                    ->required(),
-                Forms\Components\TextInput::make('time_cooking')
-                    ->label(__('recipe-resource.field.time_cooking'))
-                    ->required(),
-                Forms\Components\TextInput::make('time_rest')
-                    ->label(__('recipe-resource.field.time_rest'))
-                    ->required(),
-                Forms\Components\TextInput::make('time_preparation')
-                    ->label(__('recipe-resource.field.time_preparation'))
-                    ->required(),
-            ]);
+                Forms\Components\Group::make()
+                    ->schema([
+                        Forms\Components\Section::make(__('recipe-resource.section.recipe_information'))
+                            ->schema([
+//                                Forms\Components\Select::make('user_id')
+//                                    ->relationship('user', 'name'),
+                                Forms\Components\FileUpload::make('image')
+                                    ->openable()
+                                    ->image()
+                                    ->imageEditor()
+                                    ->visibility('public')
+                                    ->label(__('recipe-resource.field.image'))
+                                    ->columnSpan(2)
+                                    ->required(),
+                                Forms\Components\TextInput::make('title')
+                                    ->label(__('recipe-resource.field.title'))
+                                    ->required()
+                                    ->maxLength(255),
+                                Forms\Components\Textarea::make('description')
+                                    ->label(__('recipe-resource.field.description'))
+                                    ->required()
+                                    ->maxLength(255),
+                                Forms\Components\TextInput::make('serving')
+                                    ->label(__('recipe-resource.field.serving'))
+                                    ->required()
+                                    ->numeric(),
+                                Forms\Components\Toggle::make('vegan')
+                                    ->label(__('recipe-resource.field.vegan'))
+                                    ->required(),
+                                Forms\Components\Toggle::make('vegeterian')
+                                    ->label(__('recipe-resource.field.vegan'))
+                                    ->required(),
+                            ])->columns(2),
+                    ])->columnSpan(['lg' => 2]),
+                Forms\Components\Group::make()
+                    ->schema([
+                        Forms\Components\Section::make(__('recipe-resource.section.time'))
+                            ->schema([
+                                Forms\Components\TimePicker::make('time_cooking')
+                                    ->label(__('recipe-resource.field.time_cooking'))
+                                    ->required(),
+                                Forms\Components\TimePicker::make('time_rest')
+                                    ->label(__('recipe-resource.field.time_rest'))
+                                    ->required(),
+                                Forms\Components\TimePicker::make('time_preparation')
+                                    ->label(__('recipe-resource.field.time_preparation'))
+                                    ->required(),
+                            ])
+                    ])->columnSpan(['lg' => 1]),
+            ])->columns(3);
     }
 
     public static function table(Table $table): Table

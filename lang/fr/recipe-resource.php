@@ -26,7 +26,7 @@ return [
     'field.title' => 'Titre',
     'field.description' => 'Description',
     'field.image' => 'Image de la recette',
-    'field.serving' => 'Nombre de personne',
+    'field.serving' => 'Nombre de personnes',
     'field.vegan' => 'Végan',
     'field.vegeterian' => 'Végétarien',
     'field.time_cooking' => 'Temps de cuisson',
@@ -48,8 +48,8 @@ return [
     |--------------------------------------------------------------------------
     */
 
-    'section.personal_information' => "Informations personnelles",
-    'section.bank_information' => "informations bancaires",
+    'section.recipe_information' => "Informations recette",
+    'section.time' => "Temps",
     'section.company_information' => "informations entreprise",
 
     /*
