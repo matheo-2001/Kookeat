@@ -21,22 +21,28 @@ class IngredientResource extends Resource
     {
         return $form
             ->schema([
-                Forms\Components\Select::make('recipe_id')
-                    ->relationship('recipe', 'title')
-                    ->required(),
-                Forms\Components\TextInput::make('title')
-                    ->label(__('ingredient-resource.field.title'))
-                    ->required()
-                    ->maxLength(255),
-                Forms\Components\TextInput::make('quantity')
-                    ->label(__('ingredient-resource.field.quantity'))
-                    ->required()
-                    ->numeric(),
-                Forms\Components\FileUpload::make('image')
-                    ->label(__('ingredient-resource.field.image'))
-                    ->image()
-                    ->required(),
-            ]);
+                Forms\Components\Group::make()
+                    ->schema([
+                        Forms\Components\Section::make(__('ingredient-resource.section.ingredient_information'))
+                            ->schema([
+//                Forms\Components\Select::make('recipe_id')
+//                    ->relationship('recipe', 'title')
+//                    ->required(),
+                                Forms\Components\FileUpload::make('image')
+                                    ->label(__('ingredient-resource.field.image'))
+                                    ->image()
+                                    ->required(),
+                                Forms\Components\TextInput::make('title')
+                                    ->label(__('ingredient-resource.field.title'))
+                                    ->required()
+                                    ->maxLength(255),
+                                Forms\Components\TextInput::make('quantity')
+                                    ->label(__('ingredient-resource.field.quantity'))
+                                    ->required()
+                                    ->numeric(),
+                            ])
+                    ])->columnSpan(['lg' => 2])
+            ])->columns(2);
     }
 
     public static function table(Table $table): Table

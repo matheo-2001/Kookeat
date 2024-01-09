@@ -21,11 +21,11 @@ class StepResource extends Resource
     {
         return $form
             ->schema([
-                Forms\Components\Select::make('recipe_id')
-                    ->relationship('recipe', 'title')
-                    ->label(__('step-resource.field.title'))
-                    ->required(),
-                Forms\Components\TextInput::make('description')
+//                Forms\Components\Select::make('recipe_id')
+//                    ->relationship('recipe', 'title')
+//                    ->label(__('step-resource.field.title'))
+//                    ->required(),
+                Forms\Components\Textarea::make('description')
                     ->label(__('step-resource.field.description'))
                     ->required()
                     ->maxLength(255),

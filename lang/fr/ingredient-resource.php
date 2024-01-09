@@ -36,7 +36,7 @@ return [
     |--------------------------------------------------------------------------
     */
 
-    'section.personal_information' => "Informations personnelles",
+    'section.ingredient_information' => "Informations ingrédients",
     'section.bank_information' => "informations bancaires",
     'section.company_information' => "informations entreprise",
 
