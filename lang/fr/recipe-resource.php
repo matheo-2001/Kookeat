@@ -7,15 +7,15 @@ return [
     |--------------------------------------------------------------------------
     */
 
-    'column.name' => 'Nom',
-    'column.first_name' => 'Prénom',
-    'column.user_name' => 'Nom de l\'utilisateur',
-    'column.user_first_name' => 'Prénom de l\'utilisateur',
-    'column.email' => 'Email',
-    'column.phone' => 'Téléphone',
-    'column.email_verified_at' => 'Email vérifié le',
-    'column.created_at' => 'Crée le',
-    'column.updated_at' => 'Modifié le',
+    'column.title' => 'Titre',
+    'column.description' => 'Description',
+    'column.image' => 'Image de la recette',
+    'column.serving' => 'Nombre de personne',
+    'column.vegan' => 'Végan',
+    'column.vegeterian' => 'Végétarien',
+    'column.time_cooking' => 'Temps de cuisson',
+    'column.time_rest' => 'Temps de repos',
+    'column.time_preparation' => 'Temps de préparation',
 
     /*
     |--------------------------------------------------------------------------
@@ -23,27 +23,15 @@ return [
     |--------------------------------------------------------------------------
     */
 
-    'field.title' => 'Titre de la recette',
-    'field.description' => 'Description de la recette',
-    'field.email' => 'Email',
-    'field.phone' => 'Téléphone',
-    'field.address' => 'Adresse',
-    'field.zip_code' => 'Code postal',
-    'field.city' => 'Ville',
-    'field.country' => 'Pays',
-    'field.key_stripe' => 'Clé stripe',
-    'field.vat_rate' => 'Taux TVA',
-    'field.rib' => 'RIB (jpeg ou png)',
-    'field.informations_invoice' => 'Informations facture',
-    'field.informations_quote' => 'Informations devis',
-    'field.user_id' => 'Compte utilisateur',
-    'field.siren' => 'Siren',
-    'field.website' => 'Site web',
-    'field.legal_status' => 'Forme juridique',
-    'field.vat_number' => 'Numéro de TVA',
-    'field.rcs_number' => 'Numéro RCS',
-    'field.created_at' => 'Crée le',
-    'field.updated_at' => 'Modifié le',
+    'field.title' => 'Titre',
+    'field.description' => 'Description',
+    'field.image' => 'Image de la recette',
+    'field.serving' => 'Nombre de personne',
+    'field.vegan' => 'Végan',
+    'field.vegeterian' => 'Végétarien',
+    'field.time_cooking' => 'Temps de cuisson',
+    'field.time_rest' => 'Temps de repos',
+    'field.time_preparation' => 'Temps de préparation',
 
     /*
     |--------------------------------------------------------------------------
@@ -70,11 +58,7 @@ return [
     |--------------------------------------------------------------------------
     */
 
-    'nav.group' => 'Gestion',
-    'nav.role.label' => 'Prestataires',
-    'nav.role.label.scope' => 'Mes informations',
-    'nav.role.icon' => 'zondicon-artist',
-    'resource.label.user' => 'Prestataire',
-    'resource.label.user.scope' => 'Mes informations',
-    'resource.label.roles' => 'Prestataires',
+    'nav.role.label' => 'Recettes',
+    'nav.role.icon' => 'akar-reciept',
+    'resource.label.user' => 'Recette',
 ];

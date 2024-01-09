@@ -32,20 +32,27 @@ class RecipeResource extends Resource
                     ->required()
                     ->maxLength(255),
                 Forms\Components\FileUpload::make('image')
+                    ->label(__('recipe-resource.field.image'))
                     ->image()
                     ->required(),
                 Forms\Components\TextInput::make('serving')
+                    ->label(__('recipe-resource.field.serving'))
                     ->required()
                     ->numeric(),
                 Forms\Components\Toggle::make('vegan')
+                    ->label(__('recipe-resource.field.vegan'))
                     ->required(),
                 Forms\Components\Toggle::make('vegeterian')
+                    ->label(__('recipe-resource.field.vegeterian'))
                     ->required(),
                 Forms\Components\TextInput::make('time_cooking')
+                    ->label(__('recipe-resource.field.time_cooking'))
                     ->required(),
                 Forms\Components\TextInput::make('time_rest')
+                    ->label(__('recipe-resource.field.time_rest'))
                     ->required(),
                 Forms\Components\TextInput::make('time_preparation')
+                    ->label(__('recipe-resource.field.time_preparation'))
                     ->required(),
             ]);
     }
@@ -58,20 +65,29 @@ class RecipeResource extends Resource
                     ->numeric()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('title')
+                    ->label(__('recipe-resource.column.title'))
                     ->searchable(),
                 Tables\Columns\TextColumn::make('description')
+                    ->label(__('recipe-resource.column.description'))
                     ->searchable(),
-                Tables\Columns\ImageColumn::make('image'),
+                Tables\Columns\ImageColumn::make('image')
+                    ->label(__('recipe-resource.column.image')),
                 Tables\Columns\TextColumn::make('serving')
+                    ->label(__('recipe-resource.column.serving'))
                     ->numeric()
                     ->sortable(),
                 Tables\Columns\IconColumn::make('vegan')
+                    ->label(__('recipe-resource.column.vegan'))
                     ->boolean(),
                 Tables\Columns\IconColumn::make('vegeterian')
+                    ->label(__('recipe-resource.column.vegeterian'))
                     ->boolean(),
-                Tables\Columns\TextColumn::make('time_cooking'),
-                Tables\Columns\TextColumn::make('time_rest'),
-                Tables\Columns\TextColumn::make('time_preparation'),
+                Tables\Columns\TextColumn::make('time_cooking')
+                    ->label(__('recipe-resource.column.time_cooking')),
+                Tables\Columns\TextColumn::make('time_rest')
+                    ->label(__('recipe-resource.column.time_rest')),
+                Tables\Columns\TextColumn::make('time_preparation')
+                    ->label(__('recipe-resource.column.time_preparation')),
                 Tables\Columns\TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable()
@@ -110,20 +126,20 @@ class RecipeResource extends Resource
         ];
     }
 
-//    public static function getNavigationLabel(): string
-//    {
-//        return __('event-resource.nav.role.label');
-//    }
-//
-//    public static function getNavigationIcon(): string
-//    {
-//        return __('event-resource.nav.role.icon');
-//    }
-//
-//
-//    public static function getModelLabel(): string
-//    {
-//        return __('event-resource.resource.label.user');
-//    }
+    public static function getNavigationLabel(): string
+    {
+        return __('recipe-resource.nav.role.label');
+    }
+
+    public static function getNavigationIcon(): string
+    {
+        return __('recipe-resource.nav.role.icon');
+    }
+
+
+    public static function getModelLabel(): string
+    {
+        return __('recipe-resource.resource.label.user');
+    }
 
 }
