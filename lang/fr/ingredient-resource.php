@@ -8,14 +8,8 @@ return [
     */
 
     'column.title' => 'Titre',
-    'column.description' => 'Description',
-    'column.image' => 'Image de la recette',
-    'column.serving' => 'Nombre de personne',
-    'column.vegan' => 'Végan',
-    'column.vegeterian' => 'Végétarien',
-    'column.time_cooking' => 'Temps de cuisson',
-    'column.time_rest' => 'Temps de repos',
-    'column.time_preparation' => 'Temps de préparation',
+    'column.quantity' => 'Quantité',
+    'column.image' => 'Image',
 
     /*
     |--------------------------------------------------------------------------
@@ -24,14 +18,8 @@ return [
     */
 
     'field.title' => 'Titre',
-    'field.description' => 'Description',
-    'field.image' => 'Image de la recette',
-    'field.serving' => 'Nombre de personnes',
-    'field.vegan' => 'Végan',
-    'field.vegeterian' => 'Végétarien',
-    'field.time_cooking' => 'Temps de cuisson',
-    'field.time_rest' => 'Temps de repos',
-    'field.time_preparation' => 'Temps de préparation',
+    'field.quantity' => 'Quantité',
+    'field.image' => 'Image de l\'ingrédient',
 
     /*
     |--------------------------------------------------------------------------
@@ -48,8 +36,8 @@ return [
     |--------------------------------------------------------------------------
     */
 
-    'section.recipe_information' => "Informations recette",
-    'section.time' => "Temps",
+    'section.ingredient_information' => "Informations ingrédients",
+    'section.bank_information' => "informations bancaires",
     'section.company_information' => "informations entreprise",
 
     /*
@@ -58,7 +46,7 @@ return [
     |--------------------------------------------------------------------------
     */
 
-    'nav.role.label' => 'Recettes',
-    'nav.role.icon' => 'akar-reciept',
-    'resource.label.user' => 'Recette',
+    'nav.role.label' => 'Ingrédients',
+    'nav.role.icon' => 'mdi-food',
+    'resource.label.user' => 'Ingrédient',
 ];
