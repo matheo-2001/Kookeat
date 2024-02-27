@@ -28,10 +28,8 @@ class RecipeResource extends Resource
 //                                Forms\Components\Select::make('user_id')
 //                                    ->relationship('user', 'name'),
                                 Forms\Components\FileUpload::make('image')
-                                    ->openable()
                                     ->image()
                                     ->imageEditor()
-                                    ->visibility('public')
                                     ->label(__('recipe-resource.field.image'))
                                     ->columnSpan(2)
                                     ->required(),
