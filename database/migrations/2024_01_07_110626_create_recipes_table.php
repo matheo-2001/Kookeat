@@ -21,8 +21,6 @@ return new class extends Migration {
             $table->time('time_cooking');
             $table->time('time_rest');
             $table->time('time_preparation');
-            $table->unsignedBigInteger('user_id')->nullable();
-            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->timestamps();
         });
     }

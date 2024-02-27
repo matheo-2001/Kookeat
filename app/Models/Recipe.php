@@ -19,21 +19,20 @@ class Recipe extends Model
         'time_cooking',
         'time_rest',
         'time_preparation',
-        'user_id',
     ];
 
-    public function user(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+    public function favorites(): \Illuminate\Database\Eloquent\Relations\HasMany
     {
-        return $this->belongsTo(User::class, 'user_id');
+        return $this->hasMany(Favorite::class, 'recipe_id');
     }
 
-    public function steps(): \Illuminate\Database\Eloquent\Relations\HasMany
+    public function ingredients(): \Illuminate\Database\Eloquent\Relations\BelongsToMany
     {
-        return $this->hasMany(Step::class, 'recipe_id');
+        return $this->belongsToMany(Ingredient::class);
     }
 
-    public function ingredients(): \Illuminate\Database\Eloquent\Relations\HasMany
+    public function recipesCategories(): \Illuminate\Database\Eloquent\Relations\BelongsToMany
     {
-        return $this->hasMany(Ingredient::class, 'recipe_id');
+        return $this->belongsToMany(RecipeCategory::class);
     }
 }

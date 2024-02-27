@@ -4,8 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-return new class extends Migration
-{
+return new class extends Migration {
     /**
      * Run the migrations.
      */
@@ -16,8 +15,8 @@ return new class extends Migration
             $table->string('title');
             $table->integer('quantity');
             $table->string('image');
-            $table->unsignedBigInteger('recipe_id');
-            $table->foreign('recipe_id')->references('id')->on('recipes')->onDelete('cascade');
+            $table->unsignedBigInteger('ingredient_category_id')->nullable();
+            $table->foreign('ingredient_category_id')->references('id')->on('ingredient_categories')->onDelete('set null');
             $table->timestamps();
         });
     }

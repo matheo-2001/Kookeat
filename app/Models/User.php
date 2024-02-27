@@ -22,6 +22,7 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'fridge_id',
     ];
 
     /**
@@ -44,8 +45,18 @@ class User extends Authenticatable
         'password' => 'hashed',
     ];
 
-    public function recipes(): \Illuminate\Database\Eloquent\Relations\HasMany
+    public function favorites(): \Illuminate\Database\Eloquent\Relations\HasMany
     {
-        return $this->hasMany(Recipe::class, 'user_id');
+        return $this->hasMany(Favorite::class, 'user_id');
+    }
+
+    public function drives(): \Illuminate\Database\Eloquent\Relations\HasMany
+    {
+        return $this->hasMany(Drive::class, 'user_id');
+    }
+
+    public function fridge(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+    {
+        return $this->belongsTo(Fridge::class, 'fridge_id');
     }
 }
