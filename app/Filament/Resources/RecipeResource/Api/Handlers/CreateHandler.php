@@ -1,19 +1,21 @@
 <?php
-
 namespace App\Filament\Resources\RecipeResource\Api\Handlers;
 
-use App\Filament\Resources\RecipeResource;
-use App\Http\Handlers;
 use Illuminate\Http\Request;
+use App\Http\Handlers;
+use App\Filament\Resources\RecipeResource;
 
-class CreateHandler extends Handlers
-{
-    public static string|null $uri = '/';
-    public static string|null $resource = RecipeResource::class;
+class CreateHandler extends Handlers {
+    public static string | null $uri = '/';
+    public static string | null $resource = RecipeResource::class;
 
     public static function getMethod()
     {
         return Handlers::POST;
+    }
+
+    public static function getModel() {
+        return static::$resource::getModel();
     }
 
     public function handler(Request $request)
@@ -25,10 +27,5 @@ class CreateHandler extends Handlers
         $model->save();
 
         return static::sendSuccessResponse($model, "Successfully Create Resource");
-    }
-
-    public static function getModel()
-    {
-        return static::$resource::getModel();
     }
 }

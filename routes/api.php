@@ -15,8 +15,7 @@ use Illuminate\Support\Facades\Route;
 */
 
 
-Route::prefix('api')
-    ->name('api.')
+Route::name('api.')
     ->group(function () {
         $panels = Filament::getPanels();
 
