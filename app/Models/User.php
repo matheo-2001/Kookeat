@@ -23,6 +23,7 @@ class User extends Authenticatable
         'email',
         'password',
         'fridge_id',
+        'jwt_auth_id',
     ];
 
     /**
@@ -55,8 +56,14 @@ class User extends Authenticatable
         return $this->hasMany(Drive::class, 'user_id');
     }
 
+    public function recipes(): \Illuminate\Database\Eloquent\Relations\HasMany
+    {
+        return $this->hasMany(Recipe::class, 'user_id');
+    }
+
     public function fridge(): \Illuminate\Database\Eloquent\Relations\BelongsTo
     {
         return $this->belongsTo(Fridge::class, 'fridge_id');
     }
+
 }

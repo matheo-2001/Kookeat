@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Policies;
+namespace App\Providers\Policies;
 
 use App\Models\User;
-use Spatie\Permission\Models\Role;
 use Illuminate\Auth\Access\HandlesAuthorization;
+use Spatie\Permission\Models\Role;
 
 class RolePolicy
 {

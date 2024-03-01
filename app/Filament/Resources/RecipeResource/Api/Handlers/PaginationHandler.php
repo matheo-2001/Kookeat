@@ -1,14 +1,15 @@
 <?php
+
 namespace App\Filament\Resources\RecipeResource\Api\Handlers;
 
-use Illuminate\Http\Request;
+use App\Filament\Resources\RecipeResource;
 use App\Http\Handlers;
 use Spatie\QueryBuilder\QueryBuilder;
-use App\Filament\Resources\RecipeResource;
 
-class PaginationHandler extends Handlers {
-    public static string | null $uri = '/';
-    public static string | null $resource = RecipeResource::class;
+class PaginationHandler extends Handlers
+{
+    public static string|null $uri = '/';
+    public static string|null $resource = RecipeResource::class;
 
 
     public function handler()
@@ -16,11 +17,14 @@ class PaginationHandler extends Handlers {
         $model = static::getModel();
 
         $query = QueryBuilder::for($model)
-        ->allowedFields($model::$allowedFields ?? [])
-        ->allowedSorts($model::$allowedSorts ?? [])
-        ->allowedFilters($model::$allowedFilters ?? [])
-        ->paginate(request()->query('per_page'))
-        ->appends(request()->query());
+//            ->whereHas('user', function ($query) {
+//                $query->where('jwt_auth_id', UserService::getUserId());
+//            })
+            ->allowedFields($model::$allowedFields ?? [])
+            ->allowedSorts($model::$allowedSorts ?? [])
+            ->allowedFilters($model::$allowedFilters ?? [])
+            ->paginate(request()->query('per_page'))
+            ->appends(request()->query());
 
         return static::getApiTransformer()::collection($query);
     }

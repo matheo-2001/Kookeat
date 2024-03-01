@@ -35,7 +35,9 @@ class JwtToken
 
         if ($decodedToken) {
             $userId = $decodedToken->user_id;
+            $email = $decodedToken->email;
             UserService::setUserId($userId);
+            UserService::setEmail($email);
             return $next($request);
         } else {
             return response()->json(['error' => 'Token invalide'], 401);

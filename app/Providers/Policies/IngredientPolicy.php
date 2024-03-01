@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Policies;
+namespace App\Providers\Policies;
 
-use App\Models\User;
 use App\Models\Ingredient;
+use App\Models\User;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
 class IngredientPolicy

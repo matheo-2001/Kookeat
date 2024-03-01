@@ -1,12 +1,12 @@
 <?php
 
-namespace App\Policies;
+namespace App\Providers\Policies;
 
+use App\Models\Recipe;
 use App\Models\User;
-use App\Models\Step;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
-class StepPolicy
+class RecipePolicy
 {
     use HandlesAuthorization;
 
@@ -18,19 +18,19 @@ class StepPolicy
      */
     public function viewAny(User $user): bool
     {
-        return $user->can('view_any_step');
+        return $user->can('view_any_recipe');
     }
 
     /**
      * Determine whether the user can view the model.
      *
      * @param  \App\Models\User  $user
-     * @param  \App\Models\Step  $step
+     * @param  \App\Models\Recipe  $recipe
      * @return bool
      */
-    public function view(User $user, Step $step): bool
+    public function view(User $user, Recipe $recipe): bool
     {
-        return $user->can('view_step');
+        return $user->can('view_recipe');
     }
 
     /**
@@ -41,31 +41,31 @@ class StepPolicy
      */
     public function create(User $user): bool
     {
-        return $user->can('create_step');
+        return $user->can('create_recipe');
     }
 
     /**
      * Determine whether the user can update the model.
      *
      * @param  \App\Models\User  $user
-     * @param  \App\Models\Step  $step
+     * @param  \App\Models\Recipe  $recipe
      * @return bool
      */
-    public function update(User $user, Step $step): bool
+    public function update(User $user, Recipe $recipe): bool
     {
-        return $user->can('update_step');
+        return $user->can('update_recipe');
     }
 
     /**
      * Determine whether the user can delete the model.
      *
      * @param  \App\Models\User  $user
-     * @param  \App\Models\Step  $step
+     * @param  \App\Models\Recipe  $recipe
      * @return bool
      */
-    public function delete(User $user, Step $step): bool
+    public function delete(User $user, Recipe $recipe): bool
     {
-        return $user->can('delete_step');
+        return $user->can('delete_recipe');
     }
 
     /**
@@ -76,19 +76,19 @@ class StepPolicy
      */
     public function deleteAny(User $user): bool
     {
-        return $user->can('delete_any_step');
+        return $user->can('delete_any_recipe');
     }
 
     /**
      * Determine whether the user can permanently delete.
      *
      * @param  \App\Models\User  $user
-     * @param  \App\Models\Step  $step
+     * @param  \App\Models\Recipe  $recipe
      * @return bool
      */
-    public function forceDelete(User $user, Step $step): bool
+    public function forceDelete(User $user, Recipe $recipe): bool
     {
-        return $user->can('force_delete_step');
+        return $user->can('force_delete_recipe');
     }
 
     /**
@@ -99,19 +99,19 @@ class StepPolicy
      */
     public function forceDeleteAny(User $user): bool
     {
-        return $user->can('force_delete_any_step');
+        return $user->can('force_delete_any_recipe');
     }
 
     /**
      * Determine whether the user can restore.
      *
      * @param  \App\Models\User  $user
-     * @param  \App\Models\Step  $step
+     * @param  \App\Models\Recipe  $recipe
      * @return bool
      */
-    public function restore(User $user, Step $step): bool
+    public function restore(User $user, Recipe $recipe): bool
     {
-        return $user->can('restore_step');
+        return $user->can('restore_recipe');
     }
 
     /**
@@ -122,19 +122,19 @@ class StepPolicy
      */
     public function restoreAny(User $user): bool
     {
-        return $user->can('restore_any_step');
+        return $user->can('restore_any_recipe');
     }
 
     /**
      * Determine whether the user can replicate.
      *
      * @param  \App\Models\User  $user
-     * @param  \App\Models\Step  $step
+     * @param  \App\Models\Recipe  $recipe
      * @return bool
      */
-    public function replicate(User $user, Step $step): bool
+    public function replicate(User $user, Recipe $recipe): bool
     {
-        return $user->can('replicate_step');
+        return $user->can('replicate_recipe');
     }
 
     /**
@@ -145,7 +145,7 @@ class StepPolicy
      */
     public function reorder(User $user): bool
     {
-        return $user->can('reorder_step');
+        return $user->can('reorder_recipe');
     }
 
 }
