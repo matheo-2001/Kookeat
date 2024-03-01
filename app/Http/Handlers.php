@@ -49,19 +49,13 @@ class Handlers
         }
 
         return [
-            'jwt.auth',
-            static::getMiddlewareAliasName() . ':' . static::stringifyAbility(),
+            'jwt.auth' . ':' . static::stringifyAbility(),
         ];
     }
 
     public static function isPublic(): bool
     {
         return static::$public;
-    }
-
-    protected static function getMiddlewareAliasName(): string
-    {
-        return 'ability';
     }
 
     public static function stringifyAbility()

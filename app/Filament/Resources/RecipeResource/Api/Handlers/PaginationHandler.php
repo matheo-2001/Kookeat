@@ -4,6 +4,7 @@ namespace App\Filament\Resources\RecipeResource\Api\Handlers;
 
 use App\Filament\Resources\RecipeResource;
 use App\Http\Handlers;
+use App\Services\UserService;
 use Spatie\QueryBuilder\QueryBuilder;
 
 class PaginationHandler extends Handlers
@@ -14,6 +15,7 @@ class PaginationHandler extends Handlers
 
     public function handler()
     {
+        dd(UserService::getUserId());
         $model = static::getModel();
 
         $query = QueryBuilder::for($model)
