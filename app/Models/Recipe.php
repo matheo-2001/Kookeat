@@ -5,6 +5,7 @@ namespace App\Models;
 use App\Services\UserService;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Storage;
 use Symfony\Component\HttpFoundation\Response;
 
 class Recipe extends Model
@@ -45,7 +46,7 @@ class Recipe extends Model
         static::updating(function (Recipe $recipe) {
 //            ajouter le role modo
             $userModo = auth()->check();
-            if ($recipe->user->jwt_auth_id != UserService::getUserId() && !$userModo) {
+            if ($recipe->user?->jwt_auth_id != UserService::getUserId() && !$userModo) {
 //                traduction erreur
                 abort(Response::HTTP_FORBIDDEN, 'Vous n\'avez pas le droit de modifier cette recette');
             }
@@ -54,9 +55,21 @@ class Recipe extends Model
         static::deleting(function (Recipe $recipe) {
 //            ajouter le role modo
             $userModo = auth()->check();
-            if ($recipe->user->jwt_auth_id != UserService::getUserId() && !$userModo) {
+            if ($recipe->user?->jwt_auth_id != UserService::getUserId() && !$userModo) {
 //                traduction erreur
                 abort(Response::HTTP_FORBIDDEN, 'Vous n\'avez pas le droit de supprimer cette recette');
+            }
+        });
+
+        static::saved(function (Recipe $recipe) {
+            if (array_key_exists('image', $recipe->getChanges()) && $recipe->getOriginal()['image'] !== null) {
+                Storage::disk('s3')->delete($recipe->getOriginal()['image']);
+            }
+        });
+
+        static::deleted(function (Recipe $recipe) {
+            if ($recipe->getOriginal()['image'] !== null) {
+                Storage::disk('s3')->delete($recipe->getOriginal()['image']);
             }
         });
     }
