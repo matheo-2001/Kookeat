@@ -12,8 +12,8 @@ return new class extends Migration {
     {
         Schema::create('fridge_ingredient', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('fridge_id');
-            $table->unsignedBigInteger('ingredient_id');
+            $table->unsignedBigInteger('fridge_id')->nullable();
+            $table->unsignedBigInteger('ingredient_id')->nullable();
             $table->timestamps();
 
             $table->foreign('fridge_id')->references('id')->on('fridges')->onDelete('set null');
