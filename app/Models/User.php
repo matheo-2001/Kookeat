@@ -22,8 +22,11 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
-        'fridge_id',
         'jwt_auth_id',
+        'age',
+        'newsletter',
+        'CGU',
+        'offers',
     ];
 
     /**
@@ -51,19 +54,23 @@ class User extends Authenticatable
         return $this->hasMany(Favorite::class, 'user_id');
     }
 
-    public function drives(): \Illuminate\Database\Eloquent\Relations\HasMany
-    {
-        return $this->hasMany(Drive::class, 'user_id');
-    }
-
     public function recipes(): \Illuminate\Database\Eloquent\Relations\HasMany
     {
         return $this->hasMany(Recipe::class, 'user_id');
     }
 
-    public function fridge(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+    public function fridges(): \Illuminate\Database\Eloquent\Relations\HasMany
     {
-        return $this->belongsTo(Fridge::class, 'fridge_id');
+        return $this->hasMany(Fridge::class, 'user_id');
     }
 
+    public function equipments(): \Illuminate\Database\Eloquent\Relations\BelongsToMany
+    {
+        return $this->belongsToMany(Equipment::class);
+    }
+
+    public function diets(): \Illuminate\Database\Eloquent\Relations\BelongsToMany
+    {
+        return $this->belongsToMany(Diet::class);
+    }
 }

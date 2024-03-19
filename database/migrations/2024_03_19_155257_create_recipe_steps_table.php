@@ -10,10 +10,11 @@ return new class extends Migration {
      */
     public function up(): void
     {
-        Schema::create('ingredient_categories', function (Blueprint $table) {
+        Schema::create('recipe_steps', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
-            $table->string('image')->nullable();
+            $table->string('content');
+            $table->unsignedBigInteger('recipe_id')->nullable();
+            $table->foreign('recipe_id')->references('id')->on('recipes')->onDelete('set null');
             $table->timestamps();
         });
     }
@@ -23,6 +24,6 @@ return new class extends Migration {
      */
     public function down(): void
     {
-        Schema::dropIfExists('ingredient_categories');
+        Schema::dropIfExists('recipe_steps');
     }
 };

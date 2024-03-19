@@ -10,11 +10,14 @@ return new class extends Migration {
      */
     public function up(): void
     {
-        Schema::create('ingredient_categories', function (Blueprint $table) {
+        Schema::create('users_diets', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
-            $table->string('image')->nullable();
+            $table->unsignedBigInteger('user_id');
+            $table->unsignedBigInteger('diet_id');
             $table->timestamps();
+
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('set null');
+            $table->foreign('diet_id')->references('id')->on('diets')->onDelete('set null');
         });
     }
 
@@ -23,6 +26,6 @@ return new class extends Migration {
      */
     public function down(): void
     {
-        Schema::dropIfExists('ingredient_categories');
+        Schema::dropIfExists('users_diets');
     }
 };

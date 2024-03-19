@@ -12,15 +12,14 @@ class Recipe extends Model
     use HasFactory;
 
     protected $fillable = [
-        'title',
+        'name',
         'description',
         'image',
-        'serving',
-        'vegan',
-        'vegeterian',
         'time_cooking',
         'time_rest',
         'time_preparation',
+        'difficulty',
+        'number_person',
         'user_id',
     ];
 
@@ -79,5 +78,15 @@ class Recipe extends Model
     public function recipesCategories(): \Illuminate\Database\Eloquent\Relations\BelongsToMany
     {
         return $this->belongsToMany(RecipeCategory::class);
+    }
+
+    public function recipeSteps(): \Illuminate\Database\Eloquent\Relations\BelongsToMany
+    {
+        return $this->belongsToMany(RecipeStep::class);
+    }
+
+    public function equipments(): \Illuminate\Database\Eloquent\Relations\BelongsToMany
+    {
+        return $this->belongsToMany(Equipment::class);
     }
 }

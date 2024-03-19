@@ -10,14 +10,14 @@ return new class extends Migration {
      */
     public function up(): void
     {
-        Schema::create('drive_ingredient', function (Blueprint $table) {
+        Schema::create('diets_ingredients', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('drive_id');
             $table->unsignedBigInteger('ingredient_id');
+            $table->unsignedBigInteger('diet_id');
             $table->timestamps();
 
-            $table->foreign('drive_id')->references('id')->on('drives')->onDelete('cascade');
-            $table->foreign('ingredient_id')->references('id')->on('ingredients')->onDelete('cascade');
+            $table->foreign('ingredient_id')->references('id')->on('ingredients')->onDelete('set null');
+            $table->foreign('diet_id')->references('id')->on('diets')->onDelete('set null');
         });
     }
 
@@ -26,6 +26,6 @@ return new class extends Migration {
      */
     public function down(): void
     {
-        Schema::dropIfExists('drive_ingredient');
+        Schema::dropIfExists('diets_ingredients');
     }
 };

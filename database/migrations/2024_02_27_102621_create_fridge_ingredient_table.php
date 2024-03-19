@@ -16,8 +16,8 @@ return new class extends Migration {
             $table->unsignedBigInteger('ingredient_id');
             $table->timestamps();
 
-            $table->foreign('fridge_id')->references('id')->on('fridges')->onDelete('cascade');
-            $table->foreign('ingredient_id')->references('id')->on('ingredients')->onDelete('cascade');
+            $table->foreign('fridge_id')->references('id')->on('fridges')->onDelete('set null');
+            $table->foreign('ingredient_id')->references('id')->on('ingredients')->onDelete('set null');
         });
     }
 

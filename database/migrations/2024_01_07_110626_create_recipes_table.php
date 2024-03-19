@@ -12,15 +12,14 @@ return new class extends Migration {
     {
         Schema::create('recipes', function (Blueprint $table) {
             $table->id();
-            $table->string('title');
-            $table->string('description');
+            $table->string('name');
+            $table->string('description')->nullable();
             $table->string('image');
-            $table->integer('serving');
-            $table->boolean('vegan');
-            $table->boolean('vegeterian');
             $table->time('time_cooking');
-            $table->time('time_rest');
+            $table->time('time_rest')->nullable();
             $table->time('time_preparation');
+            $table->integer('difficulty');
+            $table->integer('number_person');
             $table->unsignedBigInteger('user_id')->nullable();
             $table->foreign('user_id')->references('id')->on('users')->onDelete('set null');
             $table->timestamps();

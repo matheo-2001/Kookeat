@@ -10,9 +10,10 @@ class Ingredient extends Model
     use HasFactory;
 
     protected $fillable = [
-        'title',
+        'name',
         'quantity',
         'image',
+        'metric_type',
         'ingredient_category_id'
     ];
 
@@ -26,13 +27,14 @@ class Ingredient extends Model
         return $this->belongsToMany(Fridge::class);
     }
 
-    public function drives(): \Illuminate\Database\Eloquent\Relations\BelongsToMany
-    {
-        return $this->belongsToMany(Drive::class);
-    }
 
     public function recipes(): \Illuminate\Database\Eloquent\Relations\BelongsToMany
     {
         return $this->belongsToMany(Recipe::class);
+    }
+
+    public function diets(): \Illuminate\Database\Eloquent\Relations\BelongsToMany
+    {
+        return $this->belongsToMany(Diet::class);
     }
 }

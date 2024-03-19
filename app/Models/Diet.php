@@ -5,17 +5,17 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Drive extends Model
+class Diet extends Model
 {
     use HasFactory;
 
     protected $fillable = [
-        'user_id',
+        'name',
     ];
 
-    public function user(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+    public function users(): \Illuminate\Database\Eloquent\Relations\BelongsToMany
     {
-        return $this->belongsTo(User::class, 'user_id');
+        return $this->belongsToMany(User::class);
     }
 
     public function ingredients(): \Illuminate\Database\Eloquent\Relations\BelongsToMany
