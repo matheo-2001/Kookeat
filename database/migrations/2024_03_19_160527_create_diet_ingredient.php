@@ -10,13 +10,13 @@ return new class extends Migration {
      */
     public function up(): void
     {
-        Schema::create('users_diets', function (Blueprint $table) {
+        Schema::create('diet_ingredient', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('user_id')->nullable();
+            $table->unsignedBigInteger('ingredient_id')->nullable();
             $table->unsignedBigInteger('diet_id')->nullable();
             $table->timestamps();
 
-            $table->foreign('user_id')->references('id')->on('users')->onDelete('set null');
+            $table->foreign('ingredient_id')->references('id')->on('ingredients')->onDelete('set null');
             $table->foreign('diet_id')->references('id')->on('diets')->onDelete('set null');
         });
     }
@@ -26,6 +26,6 @@ return new class extends Migration {
      */
     public function down(): void
     {
-        Schema::dropIfExists('users_diets');
+        Schema::dropIfExists('diet_ingredient');
     }
 };

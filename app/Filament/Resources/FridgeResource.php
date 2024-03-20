@@ -2,18 +2,18 @@
 
 namespace App\Filament\Resources;
 
-use App\Filament\Resources\EquipmentResource\Pages;
-use App\Filament\Resources\EquipmentResource\RelationManagers;
-use App\Models\Equipment;
+use App\Filament\Resources\FridgeResource\Pages;
+use App\Filament\Resources\FridgeResource\RelationManagers;
+use App\Models\Fridge;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
 
-class EquipmentResource extends Resource
+class FridgeResource extends Resource
 {
-    protected static ?string $model = Equipment::class;
+    protected static ?string $model = Fridge::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
 
@@ -21,14 +21,8 @@ class EquipmentResource extends Resource
     {
         return $form
             ->schema([
-                Forms\Components\TextInput::make('name')
-                    ->required()
-                    ->maxLength(255),
-                Forms\Components\FileUpload::make('image')
-                    ->disk('s3')
-                    ->visibility('private')
-                    ->directory('/equipment')
-                    ->image(),
+                Forms\Components\Select::make('user_id')
+                    ->relationship('user', 'name'),
             ]);
     }
 
@@ -36,11 +30,9 @@ class EquipmentResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('name')
-                    ->searchable(),
-                Tables\Columns\ImageColumn::make('image')
-                    ->disk('s3')
-                    ->visibility('private'),
+                Tables\Columns\TextColumn::make('user.name')
+                    ->numeric()
+                    ->sortable(),
                 Tables\Columns\TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable()
@@ -54,7 +46,7 @@ class EquipmentResource extends Resource
                 //
             ])
             ->actions([
-//                Tables\Actions\EditAction::make(),
+                Tables\Actions\EditAction::make(),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
@@ -66,17 +58,16 @@ class EquipmentResource extends Resource
     public static function getRelations(): array
     {
         return [
-            RelationManagers\UsersRelationManager::class,
-            RelationManagers\RecipesRelationManager::class
+            RelationManagers\IngredientsRelationManager::class
         ];
     }
 
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ListEquipment::route('/'),
-            'create' => Pages\CreateEquipment::route('/create'),
-            'edit' => Pages\EditEquipment::route('/{record}/edit'),
+            'index' => Pages\ListFridges::route('/'),
+            'create' => Pages\CreateFridge::route('/create'),
+            'edit' => Pages\EditFridge::route('/{record}/edit'),
         ];
     }
 }

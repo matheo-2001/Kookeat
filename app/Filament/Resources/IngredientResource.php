@@ -3,7 +3,9 @@
 namespace App\Filament\Resources;
 
 use App\Filament\Resources\IngredientResource\Pages;
-use App\Filament\Resources\IngredientResource\RelationManagers;
+use App\Filament\Resources\IngredientResource\RelationManagers\FridgesRelationManager;
+use App\Filament\Resources\IngredientResource\RelationManagers\RecipesRelationManager;
+use App\Filament\Resources\UserResource\RelationManagers\DietsRelationManager;
 use App\Models\Ingredient;
 use Filament\Forms;
 use Filament\Forms\Form;
@@ -82,7 +84,9 @@ class IngredientResource extends Resource
     public static function getRelations(): array
     {
         return [
-            //
+            DietsRelationManager::class,
+            RecipesRelationManager::class,
+            FridgesRelationManager::class,
         ];
     }
 

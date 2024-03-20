@@ -95,7 +95,9 @@ class RecipeResource extends Resource
     public static function getRelations(): array
     {
         return [
-            //
+            RelationManagers\EquipmentsRelationManager::class,
+            RelationManagers\IngredientsRelationManager::class,
+            RelationManagers\RecipesCategoriesRelationManager::class,
         ];
     }
 

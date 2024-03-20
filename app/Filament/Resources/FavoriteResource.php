@@ -2,18 +2,20 @@
 
 namespace App\Filament\Resources;
 
-use App\Filament\Resources\EquipmentResource\Pages;
-use App\Filament\Resources\EquipmentResource\RelationManagers;
-use App\Models\Equipment;
+use App\Filament\Resources\FavoriteResource\Pages;
+use App\Filament\Resources\FavoriteResource\RelationManagers;
+use App\Models\Favorite;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\SoftDeletingScope;
 
-class EquipmentResource extends Resource
+class FavoriteResource extends Resource
 {
-    protected static ?string $model = Equipment::class;
+    protected static ?string $model = Favorite::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
 
@@ -21,14 +23,10 @@ class EquipmentResource extends Resource
     {
         return $form
             ->schema([
-                Forms\Components\TextInput::make('name')
-                    ->required()
-                    ->maxLength(255),
-                Forms\Components\FileUpload::make('image')
-                    ->disk('s3')
-                    ->visibility('private')
-                    ->directory('/equipment')
-                    ->image(),
+                Forms\Components\Select::make('user_id')
+                    ->relationship('user', 'name'),
+                Forms\Components\Select::make('recipe_id')
+                    ->relationship('recipe', 'name'),
             ]);
     }
 
@@ -36,11 +34,12 @@ class EquipmentResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('name')
-                    ->searchable(),
-                Tables\Columns\ImageColumn::make('image')
-                    ->disk('s3')
-                    ->visibility('private'),
+                Tables\Columns\TextColumn::make('user.name')
+                    ->numeric()
+                    ->sortable(),
+                Tables\Columns\TextColumn::make('recipe.name')
+                    ->numeric()
+                    ->sortable(),
                 Tables\Columns\TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable()
@@ -54,7 +53,7 @@ class EquipmentResource extends Resource
                 //
             ])
             ->actions([
-//                Tables\Actions\EditAction::make(),
+                Tables\Actions\EditAction::make(),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
@@ -66,17 +65,16 @@ class EquipmentResource extends Resource
     public static function getRelations(): array
     {
         return [
-            RelationManagers\UsersRelationManager::class,
-            RelationManagers\RecipesRelationManager::class
+            //
         ];
     }
 
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ListEquipment::route('/'),
-            'create' => Pages\CreateEquipment::route('/create'),
-            'edit' => Pages\EditEquipment::route('/{record}/edit'),
+            'index' => Pages\ListFavorites::route('/'),
+            'create' => Pages\CreateFavorite::route('/create'),
+            'edit' => Pages\EditFavorite::route('/{record}/edit'),
         ];
     }
 }
