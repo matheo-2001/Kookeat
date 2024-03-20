@@ -12,8 +12,9 @@ return new class extends Migration {
     {
         Schema::create('ingredients', function (Blueprint $table) {
             $table->id();
-            $table->string('title');
-            $table->integer('quantity');
+            $table->string('name');
+            $table->integer('quantity')->nullable();
+            $table->string('metric_type')->nullable();
             $table->string('image');
             $table->unsignedBigInteger('ingredient_category_id')->nullable();
             $table->foreign('ingredient_category_id')->references('id')->on('ingredient_categories')->onDelete('set null');

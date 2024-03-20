@@ -16,10 +16,13 @@ return new class extends Migration {
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
+            $table->integer('age')->nullable();
+            $table->boolean('newsletter')->nullable();
+            $table->boolean('CGU')->nullable();
+            $table->boolean('offers')->nullable();
             $table->rememberToken();
             $table->timestamps();
-            $table->unsignedBigInteger('fridge_id')->nullable();
-            $table->foreign('fridge_id')->references('id')->on('fridges')->onDelete('cascade');
+            $table->string('jwt_auth_id')->nullable();
         });
     }
 

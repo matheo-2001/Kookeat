@@ -1,6 +1,6 @@
 <?php
 
-use Illuminate\Http\Request;
+use Filament\Facades\Filament;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -14,6 +14,33 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
-});
+
+Route::name('api.')
+    ->group(function () {
+        $panels = Filament::getPanels();
+
+        foreach ($panels as $key => $panel) {
+            try {
+
+                Route::prefix($panel->getId())
+                    ->name($panel->getId() . '.')
+                    ->group(function () use ($panel) {
+                        $resources = $panel->getResources();
+
+                        foreach ($resources as $key => $resource) {
+                            try {
+                                $resourceName = str($resource)->beforeLast('Resource')->explode('\\')->last();
+
+                                $apiServiceClass = $resource . '\\Api\\' . $resourceName . 'ApiService';
+
+                                app($apiServiceClass)->registerRoutes();
+                            } catch (Exception $e) {
+                            }
+                        }
+                    });
+
+            } catch (Exception $e) {
+                dd($e);
+            }
+        }
+    });

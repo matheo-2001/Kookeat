@@ -9,7 +9,13 @@ class IngredientCategory extends Model
 {
     use HasFactory;
 
-    public function Ingredients(): \Illuminate\Database\Eloquent\Relations\HasMany
+    protected $fillable = [
+        'name',
+        'image',
+    ];
+
+
+    public function ingredients(): \Illuminate\Database\Eloquent\Relations\HasMany
     {
         return $this->hasMany(Ingredient::class, 'ingredient_category_id');
     }

@@ -30,6 +30,9 @@ class RecipeResource extends Resource
                                 Forms\Components\FileUpload::make('image')
                                     ->image()
                                     ->imageEditor()
+                                    ->disk('s3')
+                                    ->directory('recipe')
+                                    ->visibility('private')
                                     ->label(__('recipe-resource.field.image'))
                                     ->columnSpan(2)
                                     ->required(),
