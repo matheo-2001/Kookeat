@@ -10,8 +10,6 @@ use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
 
 class IngredientResource extends Resource
 {
@@ -33,6 +31,10 @@ class IngredientResource extends Resource
                 Forms\Components\TextInput::make('metric_type')
                     ->maxLength(255),
                 Forms\Components\FileUpload::make('image')
+                    ->disk('s3')
+                    ->visibility('private')
+                    ->directory('/ingredient')
+                    ->imageEditor()
                     ->image()
                     ->required(),
             ]);
@@ -52,7 +54,9 @@ class IngredientResource extends Resource
                     ->sortable(),
                 Tables\Columns\TextColumn::make('metric_type')
                     ->searchable(),
-                Tables\Columns\ImageColumn::make('image'),
+                Tables\Columns\ImageColumn::make('image')
+                    ->disk('s3')
+                    ->visibility('private'),
                 Tables\Columns\TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable()
@@ -66,7 +70,7 @@ class IngredientResource extends Resource
                 //
             ])
             ->actions([
-                Tables\Actions\EditAction::make(),
+//                Tables\Actions\EditAction::make(),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([

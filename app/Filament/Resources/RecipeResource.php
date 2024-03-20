@@ -10,8 +10,6 @@ use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
 
 class RecipeResource extends Resource
 {
@@ -23,14 +21,16 @@ class RecipeResource extends Resource
     {
         return $form
             ->schema([
-                Forms\Components\Select::make('user_id')
-                    ->relationship('user', 'name'),
                 Forms\Components\TextInput::make('name')
                     ->required()
                     ->maxLength(255),
                 Forms\Components\TextInput::make('description')
                     ->maxLength(255),
                 Forms\Components\FileUpload::make('image')
+                    ->disk('s3')
+                    ->visibility('private')
+                    ->directory('/recipe')
+                    ->imageEditor()
                     ->image()
                     ->required(),
                 Forms\Components\TextInput::make('time_cooking')
@@ -58,7 +58,9 @@ class RecipeResource extends Resource
                     ->searchable(),
                 Tables\Columns\TextColumn::make('description')
                     ->searchable(),
-                Tables\Columns\ImageColumn::make('image'),
+                Tables\Columns\ImageColumn::make('image')
+                    ->disk('s3')
+                    ->visibility('private'),
                 Tables\Columns\TextColumn::make('time_cooking'),
                 Tables\Columns\TextColumn::make('time_rest'),
                 Tables\Columns\TextColumn::make('time_preparation'),
@@ -81,7 +83,7 @@ class RecipeResource extends Resource
                 //
             ])
             ->actions([
-                Tables\Actions\EditAction::make(),
+//                Tables\Actions\EditAction::make(),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
