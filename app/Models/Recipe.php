@@ -3,6 +3,9 @@
 namespace App\Models;
 
 use App\Services\UserService;
+use Aws\S3\S3Client;
+use Filament\Notifications\Notification;
+use GuzzleHttp\Client;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Storage;
@@ -40,6 +43,8 @@ class Recipe extends Model
                 ]);
                 $recipe->user_id = $user->id;
             }
+
+
         });
 
         static::updating(function (Recipe $recipe) {
@@ -57,6 +62,53 @@ class Recipe extends Model
             if ($recipe->user?->jwt_auth_id != UserService::getUserId() && !$userModo) {
 //                traduction erreur
                 abort(Response::HTTP_FORBIDDEN, 'Vous n\'avez pas le droit de supprimer cette recette');
+            }
+        });
+
+        static::saving(function (Recipe $recipe) {
+            if (!$recipe->exists || $recipe->getOriginal()['image'] !== $recipe->image) {
+                $s3Client = new S3Client([
+                    'version' => 'latest',
+                    'region' => 'eu-west-3', // Remplacez par votre région S3
+                    'credentials' => [
+                        'key' => env('AWS_ACCESS_KEY_ID'),
+                        'secret' => env('AWS_SECRET_ACCESS_KEY'),
+                    ],
+                ]);
+
+                $bucket = env('AWS_BUCKET'); // Nom de votre bucket S3
+                $key = $recipe->image; // Chemin de l'image dans S3
+
+                try {
+                    // Récupérer le contenu de l'image depuis S3
+                    $result = $s3Client->getObject([
+                        'Bucket' => $bucket,
+                        'Key' => $key,
+                    ]);
+                    $client = new Client();
+                    $response = $client->request('POST', 'http://fastapi/predict/', [
+                        'multipart' => [
+                            [
+                                'name' => 'file',
+                                'contents' => $result['Body']->getContents(),
+                                'filename' => basename($recipe->image)
+                            ],
+                        ],
+                    ]);
+                    $content = json_decode($response->getBody());
+
+                    if ($content->prediction === "other") {
+                        Storage::disk('s3')->delete($recipe->image);
+                        Notification::make()
+                            ->title('Veuillez entrer une image de nourriture')
+                            ->icon('heroicon-o-document-text')
+                            ->iconColor('danger')
+                            ->send();
+                    }
+
+                } catch (\Exception $e) {
+                    dd($e);
+                }
             }
         });
 

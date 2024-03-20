@@ -100,6 +100,13 @@ services:
             - '/dev/shm:/dev/shm'
         networks:
             - sail
+
+    fastapi:
+        build:
+            context: /home/becker/Projets/Kookeat-ia/
+            dockerfile: Dockerfile
+        networks:
+            - sail
 networks:
     sail:
         driver: bridge
