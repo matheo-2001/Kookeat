@@ -72,4 +72,9 @@ class DietResource extends Resource
             'edit' => Pages\EditDiet::route('/{record}/edit'),
         ];
     }
+
+    public static function getNavigationGroup(): ?string
+    {
+        return ('Personal info');
+    }
 }

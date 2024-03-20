@@ -79,4 +79,9 @@ class RecipeCategoryResource extends Resource
             'edit' => Pages\EditRecipeCategory::route('/{record}/edit'),
         ];
     }
+
+    public static function getNavigationGroup(): ?string
+    {
+        return ('Categories');
+    }
 }

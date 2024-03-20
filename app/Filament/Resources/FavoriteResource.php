@@ -77,4 +77,9 @@ class FavoriteResource extends Resource
             'edit' => Pages\EditFavorite::route('/{record}/edit'),
         ];
     }
+
+    public static function getNavigationGroup(): ?string
+    {
+        return ('Personal info');
+    }
 }

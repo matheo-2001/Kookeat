@@ -70,4 +70,9 @@ class FridgeResource extends Resource
             'edit' => Pages\EditFridge::route('/{record}/edit'),
         ];
     }
+
+    public static function getNavigationGroup(): ?string
+    {
+        return ('Personal info');
+    }
 }

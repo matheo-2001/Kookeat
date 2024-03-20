@@ -79,4 +79,9 @@ class EquipmentResource extends Resource
             'edit' => Pages\EditEquipment::route('/{record}/edit'),
         ];
     }
+
+    public static function getNavigationGroup(): ?string
+    {
+        return ('Personal info');
+    }
 }
