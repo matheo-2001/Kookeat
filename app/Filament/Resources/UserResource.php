@@ -2,9 +2,9 @@
 
 namespace App\Filament\Resources;
 
-use App\Filament\Resources\IngredientResource\Pages;
-use App\Filament\Resources\IngredientResource\RelationManagers;
-use App\Models\Ingredient;
+use App\Filament\Resources\UserResource\Pages;
+use App\Filament\Resources\UserResource\RelationManagers;
+use App\Models\User;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
@@ -13,9 +13,9 @@ use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 
-class IngredientResource extends Resource
+class UserResource extends Resource
 {
-    protected static ?string $model = Ingredient::class;
+    protected static ?string $model = User::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
 
@@ -23,18 +23,25 @@ class IngredientResource extends Resource
     {
         return $form
             ->schema([
-                Forms\Components\Select::make('ingredient_category_id')
-                    ->relationship('ingredientCategory', 'name'),
                 Forms\Components\TextInput::make('name')
                     ->required()
                     ->maxLength(255),
-                Forms\Components\TextInput::make('quantity')
-                    ->numeric(),
-                Forms\Components\TextInput::make('metric_type')
+                Forms\Components\TextInput::make('email')
+                    ->email()
+                    ->required()
                     ->maxLength(255),
-                Forms\Components\FileUpload::make('image')
-                    ->image()
-                    ->required(),
+                Forms\Components\DateTimePicker::make('email_verified_at'),
+                Forms\Components\TextInput::make('password')
+                    ->password()
+                    ->required()
+                    ->maxLength(255),
+                Forms\Components\TextInput::make('age')
+                    ->numeric(),
+                Forms\Components\Toggle::make('newsletter'),
+                Forms\Components\Toggle::make('CGU'),
+                Forms\Components\Toggle::make('offers'),
+                Forms\Components\TextInput::make('jwt_auth_id')
+                    ->maxLength(255),
             ]);
     }
 
@@ -42,17 +49,22 @@ class IngredientResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('ingredientCategory.name')
-                    ->numeric()
-                    ->sortable(),
                 Tables\Columns\TextColumn::make('name')
                     ->searchable(),
-                Tables\Columns\TextColumn::make('quantity')
+                Tables\Columns\TextColumn::make('email')
+                    ->searchable(),
+                Tables\Columns\TextColumn::make('email_verified_at')
+                    ->dateTime()
+                    ->sortable(),
+                Tables\Columns\TextColumn::make('age')
                     ->numeric()
                     ->sortable(),
-                Tables\Columns\TextColumn::make('metric_type')
-                    ->searchable(),
-                Tables\Columns\ImageColumn::make('image'),
+                Tables\Columns\IconColumn::make('newsletter')
+                    ->boolean(),
+                Tables\Columns\IconColumn::make('CGU')
+                    ->boolean(),
+                Tables\Columns\IconColumn::make('offers')
+                    ->boolean(),
                 Tables\Columns\TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable()
@@ -61,6 +73,8 @@ class IngredientResource extends Resource
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
+                Tables\Columns\TextColumn::make('jwt_auth_id')
+                    ->searchable(),
             ])
             ->filters([
                 //
@@ -85,9 +99,9 @@ class IngredientResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ListIngredients::route('/'),
-            'create' => Pages\CreateIngredient::route('/create'),
-            'edit' => Pages\EditIngredient::route('/{record}/edit'),
+            'index' => Pages\ListUsers::route('/'),
+            'create' => Pages\CreateUser::route('/create'),
+            'edit' => Pages\EditUser::route('/{record}/edit'),
         ];
     }
 }

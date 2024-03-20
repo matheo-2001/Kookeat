@@ -2,9 +2,9 @@
 
 namespace App\Filament\Resources;
 
-use App\Filament\Resources\IngredientResource\Pages;
-use App\Filament\Resources\IngredientResource\RelationManagers;
-use App\Models\Ingredient;
+use App\Filament\Resources\RecipeCategoryResource\Pages;
+use App\Filament\Resources\RecipeCategoryResource\RelationManagers;
+use App\Models\RecipeCategory;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
@@ -13,9 +13,9 @@ use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 
-class IngredientResource extends Resource
+class RecipeCategoryResource extends Resource
 {
-    protected static ?string $model = Ingredient::class;
+    protected static ?string $model = RecipeCategory::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
 
@@ -23,18 +23,11 @@ class IngredientResource extends Resource
     {
         return $form
             ->schema([
-                Forms\Components\Select::make('ingredient_category_id')
-                    ->relationship('ingredientCategory', 'name'),
                 Forms\Components\TextInput::make('name')
                     ->required()
                     ->maxLength(255),
-                Forms\Components\TextInput::make('quantity')
-                    ->numeric(),
-                Forms\Components\TextInput::make('metric_type')
-                    ->maxLength(255),
                 Forms\Components\FileUpload::make('image')
-                    ->image()
-                    ->required(),
+                    ->image(),
             ]);
     }
 
@@ -42,15 +35,7 @@ class IngredientResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('ingredientCategory.name')
-                    ->numeric()
-                    ->sortable(),
                 Tables\Columns\TextColumn::make('name')
-                    ->searchable(),
-                Tables\Columns\TextColumn::make('quantity')
-                    ->numeric()
-                    ->sortable(),
-                Tables\Columns\TextColumn::make('metric_type')
                     ->searchable(),
                 Tables\Columns\ImageColumn::make('image'),
                 Tables\Columns\TextColumn::make('created_at')
@@ -85,9 +70,9 @@ class IngredientResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ListIngredients::route('/'),
-            'create' => Pages\CreateIngredient::route('/create'),
-            'edit' => Pages\EditIngredient::route('/{record}/edit'),
+            'index' => Pages\ListRecipeCategories::route('/'),
+            'create' => Pages\CreateRecipeCategory::route('/create'),
+            'edit' => Pages\EditRecipeCategory::route('/{record}/edit'),
         ];
     }
 }

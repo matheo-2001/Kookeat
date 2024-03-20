@@ -10,6 +10,8 @@ use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\SoftDeletingScope;
 
 class RecipeResource extends Resource
 {
@@ -21,57 +23,28 @@ class RecipeResource extends Resource
     {
         return $form
             ->schema([
-                Forms\Components\Group::make()
-                    ->schema([
-                        Forms\Components\Section::make(__('recipe-resource.section.recipe_information'))
-                            ->schema([
-//                                Forms\Components\Select::make('user_id')
-//                                    ->relationship('user', 'name'),
-                                Forms\Components\FileUpload::make('image')
-                                    ->image()
-                                    ->imageEditor()
-                                    ->disk('s3')
-                                    ->directory('recipe')
-                                    ->visibility('private')
-                                    ->label(__('recipe-resource.field.image'))
-                                    ->columnSpan(2)
-                                    ->required(),
-                                Forms\Components\TextInput::make('title')
-                                    ->label(__('recipe-resource.field.title'))
-                                    ->required()
-                                    ->maxLength(255),
-                                Forms\Components\Textarea::make('description')
-                                    ->label(__('recipe-resource.field.description'))
-                                    ->required()
-                                    ->maxLength(255),
-                                Forms\Components\TextInput::make('serving')
-                                    ->label(__('recipe-resource.field.serving'))
-                                    ->required()
-                                    ->numeric(),
-                                Forms\Components\Toggle::make('vegan')
-                                    ->label(__('recipe-resource.field.vegan'))
-                                    ->required(),
-                                Forms\Components\Toggle::make('vegeterian')
-                                    ->label(__('recipe-resource.field.vegan'))
-                                    ->required(),
-                            ])->columns(2),
-                    ])->columnSpan(['lg' => 2]),
-                Forms\Components\Group::make()
-                    ->schema([
-                        Forms\Components\Section::make(__('recipe-resource.section.time'))
-                            ->schema([
-                                Forms\Components\TimePicker::make('time_cooking')
-                                    ->label(__('recipe-resource.field.time_cooking'))
-                                    ->required(),
-                                Forms\Components\TimePicker::make('time_rest')
-                                    ->label(__('recipe-resource.field.time_rest'))
-                                    ->required(),
-                                Forms\Components\TimePicker::make('time_preparation')
-                                    ->label(__('recipe-resource.field.time_preparation'))
-                                    ->required(),
-                            ])
-                    ])->columnSpan(['lg' => 1]),
-            ])->columns(3);
+                Forms\Components\Select::make('user_id')
+                    ->relationship('user', 'name'),
+                Forms\Components\TextInput::make('name')
+                    ->required()
+                    ->maxLength(255),
+                Forms\Components\TextInput::make('description')
+                    ->maxLength(255),
+                Forms\Components\FileUpload::make('image')
+                    ->image()
+                    ->required(),
+                Forms\Components\TextInput::make('time_cooking')
+                    ->required(),
+                Forms\Components\TextInput::make('time_rest'),
+                Forms\Components\TextInput::make('time_preparation')
+                    ->required(),
+                Forms\Components\TextInput::make('difficulty')
+                    ->required()
+                    ->numeric(),
+                Forms\Components\TextInput::make('number_person')
+                    ->required()
+                    ->numeric(),
+            ]);
     }
 
     public static function table(Table $table): Table
@@ -81,30 +54,20 @@ class RecipeResource extends Resource
                 Tables\Columns\TextColumn::make('user.name')
                     ->numeric()
                     ->sortable(),
-                Tables\Columns\TextColumn::make('title')
-                    ->label(__('recipe-resource.column.title'))
+                Tables\Columns\TextColumn::make('name')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('description')
-                    ->label(__('recipe-resource.column.description'))
                     ->searchable(),
-                Tables\Columns\ImageColumn::make('image')
-                    ->label(__('recipe-resource.column.image')),
-                Tables\Columns\TextColumn::make('serving')
-                    ->label(__('recipe-resource.column.serving'))
+                Tables\Columns\ImageColumn::make('image'),
+                Tables\Columns\TextColumn::make('time_cooking'),
+                Tables\Columns\TextColumn::make('time_rest'),
+                Tables\Columns\TextColumn::make('time_preparation'),
+                Tables\Columns\TextColumn::make('difficulty')
                     ->numeric()
                     ->sortable(),
-                Tables\Columns\IconColumn::make('vegan')
-                    ->label(__('recipe-resource.column.vegan'))
-                    ->boolean(),
-                Tables\Columns\IconColumn::make('vegeterian')
-                    ->label(__('recipe-resource.column.vegeterian'))
-                    ->boolean(),
-                Tables\Columns\TextColumn::make('time_cooking')
-                    ->label(__('recipe-resource.column.time_cooking')),
-                Tables\Columns\TextColumn::make('time_rest')
-                    ->label(__('recipe-resource.column.time_rest')),
-                Tables\Columns\TextColumn::make('time_preparation')
-                    ->label(__('recipe-resource.column.time_preparation')),
+                Tables\Columns\TextColumn::make('number_person')
+                    ->numeric()
+                    ->sortable(),
                 Tables\Columns\TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable()
@@ -142,21 +105,4 @@ class RecipeResource extends Resource
             'edit' => Pages\EditRecipe::route('/{record}/edit'),
         ];
     }
-
-    public static function getNavigationLabel(): string
-    {
-        return __('recipe-resource.nav.role.label');
-    }
-
-    public static function getNavigationIcon(): string
-    {
-        return __('recipe-resource.nav.role.icon');
-    }
-
-
-    public static function getModelLabel(): string
-    {
-        return __('recipe-resource.resource.label.user');
-    }
-
 }

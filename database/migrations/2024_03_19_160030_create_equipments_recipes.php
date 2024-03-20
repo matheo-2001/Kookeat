@@ -17,7 +17,7 @@ return new class extends Migration {
             $table->timestamps();
 
             $table->foreign('recipe_id')->references('id')->on('recipes')->onDelete('set null');
-            $table->foreign('equipment_id')->references('id')->on('equipments')->onDelete('set null');
+            $table->foreign('equipment_id')->references('id')->on('equipment')->onDelete('set null');
         });
     }
 
