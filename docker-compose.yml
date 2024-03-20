@@ -105,6 +105,8 @@ services:
         build:
             context: /home/becker/Projets/Kookeat-ia/
             dockerfile: Dockerfile
+        ports:
+            - 8000:80
         networks:
             - sail
 networks:

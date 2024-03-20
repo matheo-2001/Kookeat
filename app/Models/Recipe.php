@@ -4,7 +4,6 @@ namespace App\Models;
 
 use App\Services\UserService;
 use Aws\S3\S3Client;
-use Filament\Notifications\Notification;
 use GuzzleHttp\Client;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -32,17 +31,17 @@ class Recipe extends Model
         static::creating(function (Recipe $recipe) {
             $userId = UserService::getUserId();
             $email = UserService::getEmail();
-
-            $userExist = User::where('jwt_auth_id', $userId)->exists();
-            if (!$userExist) {
+            $user = User::where('jwt_auth_id', $userId)->first();
+            if (!$user) {
                 $user = User::create([
                     "name" => $userId,
                     "email" => $email,
                     "password" => bin2hex(random_bytes(60 / 2)),
                     "jwt_auth_id" => $userId
                 ]);
-                $recipe->user_id = $user->id;
+
             }
+            $recipe->user_id = $user->id;
 
 
         });
@@ -79,37 +78,30 @@ class Recipe extends Model
                 $bucket = env('AWS_BUCKET'); // Nom de votre bucket S3
                 $key = $recipe->image; // Chemin de l'image dans S3
 
-                try {
-                    // Récupérer le contenu de l'image depuis S3
-                    $result = $s3Client->getObject([
-                        'Bucket' => $bucket,
-                        'Key' => $key,
-                    ]);
-                    $client = new Client();
-                    $response = $client->request('POST', 'http://fastapi/predict/', [
-                        'multipart' => [
-                            [
-                                'name' => 'file',
-                                'contents' => $result['Body']->getContents(),
-                                'filename' => basename($recipe->image)
-                            ],
+                // Récupérer le contenu de l'image depuis S3
+                $result = $s3Client->getObject([
+                    'Bucket' => $bucket,
+                    'Key' => $key,
+                ]);
+                $client = new Client();
+                $response = $client->request('POST', 'http://fastapi/predict/', [
+                    'multipart' => [
+                        [
+                            'name' => 'file',
+                            'contents' => $result['Body']->getContents(),
+                            'filename' => basename($recipe->image)
                         ],
-                    ]);
-                    $content = json_decode($response->getBody());
+                    ],
+                ]);
+                $content = json_decode($response->getBody());
 
-                    if ($content->prediction === "other") {
-                        Storage::disk('s3')->delete($recipe->image);
-                        Notification::make()
-                            ->title('Veuillez entrer une image de nourriture')
-                            ->icon('heroicon-o-document-text')
-                            ->iconColor('danger')
-                            ->send();
-                    }
-
-                } catch (\Exception $e) {
-                    dd($e);
+                if ($content->prediction === "other") {
+                    Storage::disk('s3')->delete($recipe->image);
+                    abort(403, 'Veuillez mettre une photo correspondant à une recette');
                 }
+
             }
+
         });
 
         static::saved(function (Recipe $recipe) {
